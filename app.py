@@ -25,7 +25,7 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
-# Configure session to use filesystem (instead of signed cookies)
+# Use filesystem for session
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
@@ -80,7 +80,6 @@ def login():
         db.execute("SELECT * FROM users WHERE username = ?", [username])
 
         rows = db.fetchall()
-        print(rows)
 
         # Ensure username exists and password is correct
         
@@ -115,20 +114,30 @@ def logout():
 @login_required
 def profile():
 
-    database = sqlite3.connect('tripleh.db')
-    db = database.cursor()
-
     if request.method == "POST":
+        # Connect database
+        database = sqlite3.connect('cache.db')
+        database.row_factory = sqlite3.Row
+
+        db = database.cursor()
+        db.execute("SELECT * FROM users WHERE username = ?", [username])
+
+        rows = db.fetchall()
+
         about_you = db.execute("SELECT about_you FROM users WHERE id = ?", session["user_id"])[0]
         roommate_preferences = db.execute("SELECT roommate_preferences FROM users WHERE id = ?", session["user_id"])[0]
         contact = db.execute("SELECT contact FROM users WHERE id = ?", session["user_id"])[0]
         return render_template("update_profile.html", about_you=about_you, roommate_preferences=roommate_preferences, contact=contact)
     else:
-        username = (db.execute("SELECT username FROM users WHERE id = ?", session["user_id"]))[0]['username']
-        self_description = db.execute("SELECT about_you FROM users WHERE id = ?", session["user_id"])
-        roommate_description = db.execute("SELECT roommate_preferences FROM users WHERE id = ?", session["user_id"])
-        contact = db.execute("SELECT contact FROM users WHERE id = ?", session["user_id"])
-        return render_template("profile.html", s=self_description, r=roommate_description, c=contact, username=username)
+        # Connect database
+        database = sqlite3.connect('cache.db')
+        database.row_factory = sqlite3.Row
+
+        db = database.cursor()
+        db.execute("SELECT * FROM users WHERE id = ?", [session["user_id"]])
+        userInfo = db.fetchone()
+
+        return render_template("profile.html", userInfo=userInfo)
 
 
 # Allows users to update their profile

@@ -13,18 +13,15 @@
 
   <div class="float-child">
     <div class="green"></div>
+        <h4>Name:</h4>
+        <p>{{ userInfo[2] + userInfo[3] }}</p>
+        <br>
         <h4>Username:</h4>
-        <p>{{ username }}</p>
+        <p>{{ userInfo[1] }}</p>
         
     <div class="blue">
         <h4>Your contact info</h4>
-        <tbody>
-            {% for row in c %}
-            <tr>
-                <td>{{ row.contact }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
+        <p>{{ userInfo[4] }}</p>
     </div>    
   </div>
 
