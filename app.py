@@ -78,11 +78,9 @@ def login():
 
         db = database.cursor()
         db.execute("SELECT * FROM users WHERE username = ?", [username])
-
         rows = db.fetchall()
 
-        # Ensure username exists and password is correct
-        
+        # Ensure username and password exists, and password is correct
         if not username or not password or len(rows) != 1 or not check_password_hash(rows[0]["hash"], password):
             flash("Invalid username and/or password", 'error')
             return render_template("login.html")
@@ -113,23 +111,19 @@ def logout():
 @app.route("/profile", methods=["GET", "POST"])
 @login_required
 def profile():
-
     if request.method == "POST":
+    
         # Connect database
         database = sqlite3.connect('cache.db')
         database.row_factory = sqlite3.Row
-
         db = database.cursor()
+
         db.execute("SELECT * FROM users WHERE id = ?", [session["user_id"]])
         userInfo = db.fetchone()
 
         return render_template("update_profile.html", userInfo=userInfo)
     else:
-        # Connect database
-        database = sqlite3.connect('cache.db')
-        database.row_factory = sqlite3.Row
-
-        db = database.cursor()
+        # Query database
         db.execute("SELECT * FROM users WHERE id = ?", [session["user_id"]])
         userInfo = db.fetchone()
 
@@ -150,7 +144,6 @@ def update_profile():
         # Connect to database
         database = sqlite3.connect('cache.db')
         database.row_factory = sqlite3.Row
-
         db = database.cursor()
 
         # Updates user database with new information
@@ -183,7 +176,6 @@ def find_friends():
         # Connect to database
         database = sqlite3.connect('cache.db')
         database.row_factory = sqlite3.Row
-
         db = database.cursor()
 
         # Search for list of qualified users and removes duplicates
@@ -195,7 +187,7 @@ def find_friends():
         [qu.append(x) for x in qualified_users if x not in qu]
 
         # Returns the users based on submitted query
-        return render_template("friends_found.html", qu=qu)
+        return render_template("othersFound.html", qu=qu)
 
     else:
         return render_template("findOthers.html")
@@ -226,12 +218,12 @@ def register():
         # Connect to database
         database = sqlite3.connect('cache.db')
         database.row_factory = sqlite3.Row
-
         db = database.cursor()
-        db.execute("SELECT * FROM users WHERE username = ?", [username])
 
+        db.execute("SELECT * FROM users WHERE username = ?", [username])
         rows = db.fetchall()
 
+        # Check for duplicate username
         if len(rows) != 0:
             flash("That username is taken already.")
             return render_template("register.html")
@@ -246,7 +238,7 @@ def register():
     else:
         return render_template("register.html")
 
-
+# Handle Errors
 def errorhandler(e):
     """Handle error"""
     if not isinstance(e, HTTPException):
