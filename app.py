@@ -213,7 +213,7 @@ def errorhandler(e):
     """Handle error"""
     if not isinstance(e, HTTPException):
         e = InternalServerError()
-    flash(e.name + e.code)
+    flash(e.name + str(e.code))
 
 
 # Listen for errors

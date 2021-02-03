@@ -1,9 +1,3 @@
-@font-face
-{
-    font-family: Muli;
-    src: url(Mulish-VariableFont_wght.ttf);
-}
-
 /*
 --charcoal: #363b44;
 --capri: #30c5ff;
@@ -15,7 +9,7 @@
 nav .navbar-brand
 {
     /* size for brand */
-    font-family: Muli;
+    font-family: futura-pt, sans-serif;
     font-size: xx-large;
 }
 
@@ -49,6 +43,10 @@ main
 {
     /* Scroll horizontally as needed */
     overflow-x: auto;
+    font-family: Futura Book, sans-serif;
+    src: url('Futura\ Book\ font.ttf');
+    font-style: normal;
+    font-weight: 400;
 
     /* Center contents */
     text-align: center;
