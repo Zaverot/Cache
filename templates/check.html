@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Find Houses
+{% endblock %}
+
+{% block main %}
+<h1>Search for your dream Harvard home here. These are filters, so any form elements left blank will be searched for as no preference: </h1>
+    <form action="/check" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="bathrooms" placeholder="Min Bathrooms" type="text" min=1 max=10>
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="bedrooms" placeholder="Min Bedrooms" type="text" min=1 max=10>
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="minprice" placeholder="Minimum Price per Person" type="text">
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="maxprice" placeholder="Maxmimum Price per Person" type="text">
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="distance" placeholder="Max Minutes to Harvard" type="text">
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="people" placeholder="Total People Living" type="int">
+        </div>
+        <button class="btn btn-primary" type="submit">Check For Houses</button>
+    </form>
+{% endblock %}

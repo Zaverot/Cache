@@ -1,0 +1,135 @@
+@font-face
+{
+    font-family: Muli;
+    src: url(Mulish-VariableFont_wght.ttf);
+}
+
+/*
+--charcoal: #363b44;
+--capri: #30c5ff;
+--russian green: #5c946e;
+--green sheen: #80c2af;
+--blizzard blue: #a0dde6;
+*/
+
+nav .navbar-brand
+{
+    /* size for brand */
+    font-family: Muli;
+    font-size: xx-large;
+}
+
+/* Colors for brand */
+nav .navbar-brand .crimson
+{
+    color: #30c5ff;
+}
+
+nav .navbar-nav li a
+{
+  color: #30c5ff !important;
+}
+
+nav .navbar-custom, .bg-custom
+{
+    background-color: #363b44;
+}
+
+
+main .form-control
+{
+    /* Center form controls */
+    display: inline-block;
+
+    /* Override Bootstrap's 100% width for form controls */
+    width: auto;
+}
+
+main
+{
+    /* Scroll horizontally as needed */
+    overflow-x: auto;
+
+    /* Center contents */
+    text-align: center;
+}
+
+main img
+{
+    /* Constrain images on small screens */
+    max-width: 100%;
+}
+
+.carousel-container {
+    height: 300px;
+    width: 400px;
+    overflow: hidden;
+}
+
+.carousel-container img{
+    height: auto;
+    width: 400px;
+
+}
+
+.float-container {
+    padding: 20px;
+}
+
+.float-child {
+    width: 50%;
+    float: left;
+    padding: 20px;
+}
+
+.fftd {
+    width: 5px;
+    padding:0;
+}
+
+.alert {
+    padding: 12px;
+    border-radius: 3px;
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+    border: 2px solid darkred;
+    background-color: red;
+    color: white;
+  }
+
+textarea {
+  width: 300px;
+  height: 150px;
+}
+
+body
+{
+    background-color:#80c2af;
+}
+
+table {
+    background-color: transparent;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+h1
+{
+    font-size: 2em;
+}
+
+h3
+{
+    font-size: 1em;
+}
+
+table th,
+table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+}
+
+tbody tr:nth-of-type(odd) {
+    background-color: rgb(179, 208, 255, 0.3)
+}
+

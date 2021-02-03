@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Houses
+{% endblock %}
+
+{% block main %}
+    <h1>Here are some of the top results for houses based on your preferences:</h1>
+    <div class="form-group">
+    <table>
+        <thead>
+            <tr>
+                <th>Address</th>
+                <th>Price</th>
+                <th>Cost Per Person</th>
+                <th>Walking Time to Harvard in Minutes</th>
+                <th>Bedrooms</th>
+                <th>Bathrooms</th>
+                <th>House Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in houses %}
+            <tr>
+                <td>{{ row.address }}</td>
+                <td>{{ row.price | usd }}</td>
+                <td>{{ (row.price/people) | usd }}</td>
+                <td>{{ row.Hdistance*20 }}</td>
+                <td>{{ row.bed}}</td>
+                <td>{{ row.bathroom}}</td>
+                <td>{{ row.houseType}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

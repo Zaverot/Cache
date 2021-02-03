@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Friends
+{% endblock %}
+
+{% block main %}
+    <h1>Here are some of your top potential roommates based on similarity in preferences:</h1>
+    <div class="form-group">
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Info</th>
+                <th>Their Preferences</th>
+                <th cols="12">Their Contact </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in qu %}
+            <tr>
+                <td class="fftd">{{ row.username }}</td>
+                <td class="fftd">{{ row.about_you}}</td>
+                <td class="fftd">{{ row.roommate_preferences}}</td>
+                <td class="fftd">{{ row.contact }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

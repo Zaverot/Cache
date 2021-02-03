@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    User Profile
+{% endblock %}
+
+{% block main %}
+<form action="/profile" method="post">
+<h1> Your Profile </h1>
+
+
+<div class="float-container">
+
+  <div class="float-child">
+    <div class="green"></div>
+        <h4>Username:</h4>
+        <p>{{ username }}</p>
+        
+    <div class="blue">
+        <h4>Your contact info</h4>
+        <tbody>
+            {% for row in c %}
+            <tr>
+                <td>{{ row.contact }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </div>    
+  </div>
+
+  <div class="float-child">
+    
+    <div class="blue">
+        <h4>About you:</h4>
+        <tbody>
+            {% for row in s %}
+            <tr>
+                <td>{{ row.about_you }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </div>
+    <div class="blue">
+        <h4>Your roommate preferences</h4>
+        <tbody>
+            {% for row in r %}
+            <tr>
+                <td>{{ row.roommate_preferences }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </div>
+    
+  </div>
+    <button class="btn btn-primary" type="submit">Update Profile Here</button>
+</form>
+</div>
+
+
+{% endblock %}
