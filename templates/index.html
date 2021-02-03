@@ -5,20 +5,18 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Hello, {{ userName[1] }}!</h1>
-    <p>Feel free to start browsing houses</p>
-    <p>Below are some of the houses you've most recently looked at: </p>
+    <h1>Hello, {{ userName[3] }}!</h1>
+    <p>Here, we are committed to helping you with your vaccine distribution needs.</p>
+    <p>Below are some of the shipments of vaccines you've been recently involved with: </p>
     <div class="form-group">
     <table>
         <thead>
             <tr>
-                <th>Address</th>
-                <th>Price</th>
-                <th>Time to Harvard in Minutes</th>
-                <th>Bedrooms</th>
-                <th>Bathrooms</th>
-                <th>House Type</th>
-                <th>Date Viewed</th>
+                <th>Distributor</th>
+                <th>Recipient</th>
+                <th>Company</th>
+                <th>Amount</th>
+                <th>Date</th>
             </tr>
         </thead>
         <tbody>
@@ -29,8 +27,6 @@
                 <td>{{ 20 * row.Hdistance }}</td>
                 <td>{{ row.bed}}</td>
                 <td>{{ row.bathroom}}</td>
-                <td>{{ row.houseType}}</td>
-                <td>{{ row.time }}</td>
             </tr>
             {% endfor %}
         </tbody>

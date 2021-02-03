@@ -14,38 +14,26 @@
   <div class="float-child">
     <div class="green"></div>
         <h4>Name:</h4>
-        <p>{{ userInfo[2] + userInfo[3] }}</p>
+        <p>{{ userInfo[3] + " " +  userInfo[4] }}</p>
         <br>
         <h4>Username:</h4>
         <p>{{ userInfo[1] }}</p>
         
     <div class="blue">
         <h4>Your contact info</h4>
-        <p>{{ userInfo[4] }}</p>
+        <p>{{ userInfo[5] }}</p>
     </div>    
   </div>
 
   <div class="float-child">
     
     <div class="blue">
-        <h4>About you:</h4>
-        <tbody>
-            {% for row in s %}
-            <tr>
-                <td>{{ row.about_you }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
+        <h4>Personal Info:</h4>
+        <p>{{ userInfo[6] }}</p>
     </div>
     <div class="blue">
         <h4>Your roommate preferences</h4>
-        <tbody>
-            {% for row in r %}
-            <tr>
-                <td>{{ row.roommate_preferences }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
+        <p>{{ userInfo[6] }}</p>
     </div>
     
   </div>

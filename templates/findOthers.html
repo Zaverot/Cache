@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Find Friends
+{% endblock %}
+
+{% block main %}
+<h1>Search for distributors or recipients!</h1>
+    <form action="/find_friends" method="post">
+        <div class="form-group">
+            <textarea autocomplete="off" autofocus class="form-control" name="criteria" placeholder="Enter your search terms separated by a comma and a space. For example: New York, Moderna, CDC" type="text" rows="5" cols="50"></textarea>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Search!</button>
+    </form>
+{% endblock %}

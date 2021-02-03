@@ -120,14 +120,10 @@ def profile():
         database.row_factory = sqlite3.Row
 
         db = database.cursor()
-        db.execute("SELECT * FROM users WHERE username = ?", [username])
+        db.execute("SELECT * FROM users WHERE id = ?", [session["user_id"]])
+        userInfo = db.fetchone()
 
-        rows = db.fetchall()
-
-        about_you = db.execute("SELECT about_you FROM users WHERE id = ?", session["user_id"])[0]
-        roommate_preferences = db.execute("SELECT roommate_preferences FROM users WHERE id = ?", session["user_id"])[0]
-        contact = db.execute("SELECT contact FROM users WHERE id = ?", session["user_id"])[0]
-        return render_template("update_profile.html", about_you=about_you, roommate_preferences=roommate_preferences, contact=contact)
+        return render_template("update_profile.html", userInfo=userInfo)
     else:
         # Connect database
         database = sqlite3.connect('cache.db')
@@ -145,31 +141,64 @@ def profile():
 @login_required
 def update_profile():
 
-    database = sqlite3.connect('tripleh.db')
-    db = database.cursor()
-
     # Gets user self and ideal roommate description from form.
     if request.method == "POST":
         description = request.form.get("description")
         rdescription = request.form.get("rdescription")
         contact = request.form.get("contact")
 
+        # Connect to database
+        database = sqlite3.connect('cache.db')
+        database.row_factory = sqlite3.Row
+
+        db = database.cursor()
+
         # Updates user database with new information
         db.execute("UPDATE users SET about_you = ?, roommate_preferences = ?, contact = ? WHERE id = ?",
                    description, rdescription, contact, session["user_id"])
-        self_description = db.execute("SELECT about_you FROM users WHERE id = ?", session["user_id"])
-        roommate_description = db.execute("SELECT roommate_preferences FROM users WHERE id = ?", session["user_id"])
-        contact = db.execute("SELECT contact FROM users WHERE id = ?", session["user_id"])
+        database.commit()
 
-        # Retrieves username again
-        username = (db.execute("SELECT username FROM users WHERE id = ?", session["user_id"]))[0]['username']
+        # Retrieves newly updated user information
+        db.execute("SELECT * FROM users WHERE id = ?", [session["user_id"]])
+        userInfo = db.fetchone()
 
         # Returns user to their own profile page with all necessary info
-        return render_template("profile.html", s=self_description, r=roommate_description, c=contact, username=username)
+        return render_template("profile.html", userInfo)
 
     else:
         return render_template("update_profile.html")
 
+# Allows user to find friends
+@app.route("/find_friends", methods=["GET", "POST"])
+@login_required
+def find_friends():
+    if request.method == "POST":
+
+        # Checks the submissions of user in the form
+        criteria = request.form.get("criteria")
+        if not criteria:
+            flash("Must have search terms for friends")
+            return render_template("findOthers.html")
+
+        # Connect to database
+        database = sqlite3.connect('cache.db')
+        database.row_factory = sqlite3.Row
+
+        db = database.cursor()
+
+        # Search for list of qualified users and removes duplicates
+        qualified_users = []
+        query = criteria.split(", ")
+        for crit in query:
+            qualified_users.extend(db.execute("SELECT * FROM users WHERE about_you LIKE ? ", '%' + crit + '%'))
+        qu = []
+        [qu.append(x) for x in qualified_users if x not in qu]
+
+        # Returns the users based on submitted query
+        return render_template("friends_found.html", qu=qu)
+
+    else:
+        return render_template("findOthers.html")
 
 # Allows new users to register
 @app.route("/register", methods=["GET", "POST"])
@@ -223,6 +252,7 @@ def errorhandler(e):
     if not isinstance(e, HTTPException):
         e = InternalServerError()
     flash(e.name + str(e.code))
+    return redirect("/")
 
 
 # Listen for errors
