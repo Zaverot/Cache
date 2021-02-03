@@ -162,66 +162,6 @@ def update_profile():
         return render_template("update_profile.html")
 
 
-# Allows user to query for houses
-@app.route("/check", methods=["GET", "POST"])
-@login_required
-def check():
-
-    database = sqlite3.connect('tripleh.db')
-    db = database.cursor()
-    
-    # Checks the submissions of user in the form
-    if request.method == "POST":
-        minprice = request.form.get("minprice")
-        maxprice = request.form.get("maxprice")
-        bathrooms = request.form.get("bathrooms")
-        bedrooms = request.form.get("bedrooms")
-        distance = request.form.get("distance")
-        people = request.form.get("people")
-
-        # If no input from user for a particular field, the most flexible conditions are assumed
-        if minprice == '':
-            minprice = 0
-        if maxprice == '':
-            maxprice = 10000000
-        if bathrooms == '':
-            bathrooms = 0
-        if bedrooms == '':
-            bedrooms = 0
-        if distance == '':
-            distance = 100000000
-        if people == '':
-            people = 1
-
-        # Cast fields as ints for comparisons and arithmetic
-
-        people = int(people)
-        bathrooms = int(bathrooms)
-        bedrooms = int(bedrooms)
-        minprice = int(minprice)
-        maxprice = int(maxprice)
-        distance = int(distance)
-
-        # Querying houses database for required or preferred attributes
-        houses = (db.execute(
-            "SELECT * FROM houses WHERE price BETWEEN ? AND ? AND bed >= ? AND bathroom >= ? AND Hdistance*20 <= ?",
-            minprice*people, maxprice*people, bedrooms, bathrooms, distance))
-
-        house_id = (db.execute(
-            "SELECT id FROM houses WHERE price BETWEEN ? AND ? AND bed >= ? AND bathroom >= ? AND Hdistance*20 <= ?",
-            minprice*people, maxprice*people, bedrooms, bathrooms, distance))
-
-        for nums in house_id:
-            print(nums)
-            db.execute("INSERT INTO history VALUES (CURRENT_TIMESTAMP, ?, ?)", nums['id'], session["user_id"])
-
-        # Returns the checked houses based on submitted query
-        return render_template("checked.html", houses=houses, people=int(people))
-
-    else:
-        return render_template("check.html")
-
-
 # Allows new users to register
 @app.route("/register", methods=["GET", "POST"])
 def register():
