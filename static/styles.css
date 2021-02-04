@@ -58,6 +58,11 @@ main img
     max-width: 100%;
 }
 
+.medImg {
+    height: 300px;
+    width: 300px;
+}
+
 .carousel-container {
     height: 300px;
     width: 400px;

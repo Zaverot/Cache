@@ -22,11 +22,11 @@
         <tbody>
             {% for row in shipments %}
             <tr>
-                <td>{{ row.address }}</td>
-                <td>{{ row.price }}</td>
-                <td>{{ 20 * row.Hdistance }}</td>
-                <td>{{ row.bed}}</td>
-                <td>{{ row.bathroom}}</td>
+                <td>{{ row.sender }}</td>
+                <td>{{ row.recipient }}</td>
+                <td>{{ row.company }}</td>
+                <td>{{ row.amount}}</td>
+                <td>{{ row.time}}</td>
             </tr>
             {% endfor %}
         </tbody>

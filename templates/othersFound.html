@@ -1,27 +1,25 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Friends
+    Other Users
 {% endblock %}
 
 {% block main %}
-    <h1>Here are some of your top potential roommates based on similarity in preferences:</h1>
+    <h1>Here are some of our CACHE users that align with your search:</h1>
     <div class="form-group">
     <table>
         <thead>
             <tr>
-                <th>Username</th>
-                <th>Info</th>
-                <th>Their Preferences</th>
-                <th cols="12">Their Contact </th>
+                <th>Name</th>
+                <th>User Info</th>
+                <th>Contact Information </th>
             </tr>
         </thead>
         <tbody>
             {% for row in qu %}
             <tr>
-                <td class="fftd">{{ row.username }}</td>
-                <td class="fftd">{{ row.about_you}}</td>
-                <td class="fftd">{{ row.roommate_preferences}}</td>
+                <td class="fftd">{{ row.firstName + " " + row.lastName }}</td>
+                <td class="fftd">{{ row.personalInfo}}</td>
                 <td class="fftd">{{ row.contact }}</td>
             </tr>
             {% endfor %}

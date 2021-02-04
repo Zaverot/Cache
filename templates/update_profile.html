@@ -5,27 +5,17 @@
 {% endblock %}
 
 {% block main %}
-<! -- Submission for About You section, creating a large text book where a user can give a paragraph of information -->
-<h1>Tell us a bit about yourself! People looking for roommates want to know who you are as a person. What are your interests, hobbies, and academic passions?</h1>
+
+<h1>Tell us more about you - who do you work with? Where are you located? Are you a distributor or a receiver?</h1>
 <form action="/update_profile" method="post">
         <div class="form-group">
-            <textarea autocomplete ="off" autofocus class="form-control" name="description" placeholder="Who am I?" type="text" rows="5" cols="50">{{ about_you.about_you }}</textarea>
+            <textarea autocomplete ="off" autofocus class="form-control" name="description" placeholder="Who am I?" type="text" rows="5" cols="50">{{ userInfo[6] }}</textarea>
         </div>
 
-
-
-<h2>Also, what kind of a rooming environment are you looking for? What would an ideal roommates look like for you? How many people do you want to live with?</h2>
+<h2>Finally, please provide your contact info, either an email or phone number for other CACHE users to reach out to you!</h2>
 
         <div class="form-group">
-            <textarea autocomplete ="off" autofocus class="form-control" name="rdescription" placeholder="Personality, sleep schedule, favorite starburst flavor, etc" type="text" rows="5" cols="50">{{ roommate_preferences.roommate_preferences }}</textarea>
-        </div>
-
-
-
-<h2>Finally, please provide your contact info, either an email or phone number for potential roomies to reach out to you!</h2>
-
-        <div class="form-group">
-            <textarea autocomplete ="off" autofocus class="form-control" name="contact" placeholder="Email or Phone" type="text" rows="5" cols="50">{{ contact.contact }}</textarea>
+            <textarea autocomplete ="off" autofocus class="form-control" name="contact" placeholder="Email or Phone" type="text" rows="5" cols="50">{{ userInfo[5] }}</textarea>
         </div>
         <button class="btn btn-primary" type="submit">Update Profile</button>
 </form>

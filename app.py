@@ -9,7 +9,6 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import login_required 
 
-
 # Configure application
 app = Flask(__name__)
 
@@ -47,13 +46,10 @@ def index():
         db = database.cursor()
         db.execute("SELECT * FROM users WHERE id = ?", [session["user_id"]])
         userName = db.fetchone()
-        #db.execute(
-        #    "SELECT * FROM houses JOIN history ON history.house_id = houses.id JOIN users ON history.user_id = users.id WHERE users.id = ? LIMIT 5", [session["user_id"]])
-        #houses = db.fetchall()
-        # userName = (db.execute("SELECT * FROM users WHERE id = ?", session["user_id"]))[0]["username"]
-        #houses = (db.execute(
-         #   "SELECT * FROM houses JOIN history ON history.house_id = houses.id JOIN users ON history.user_id = users.id WHERE users.id = ? LIMIT 5", session["user_id"]))
-        return render_template("index.html", userName=userName)
+        db.execute(
+            "SELECT * FROM users JOIN shipments ON shipments.user_id = users.id WHERE users.id = ? LIMIT 5", [session["user_id"]])
+        shipments = db.fetchall()
+        return render_template("index.html", userName=userName, shipments=shipments)
 
 
 # Allows the user to log in after registering.
@@ -123,7 +119,10 @@ def profile():
 
         return render_template("update_profile.html", userInfo=userInfo)
     else:
-        # Query database
+        # Connect and query database
+        database = sqlite3.connect('cache.db')
+        database.row_factory = sqlite3.Row
+        db = database.cursor()
         db.execute("SELECT * FROM users WHERE id = ?", [session["user_id"]])
         userInfo = db.fetchone()
 
@@ -138,7 +137,6 @@ def update_profile():
     # Gets user self and ideal roommate description from form.
     if request.method == "POST":
         description = request.form.get("description")
-        rdescription = request.form.get("rdescription")
         contact = request.form.get("contact")
 
         # Connect to database
@@ -147,8 +145,8 @@ def update_profile():
         db = database.cursor()
 
         # Updates user database with new information
-        db.execute("UPDATE users SET about_you = ?, roommate_preferences = ?, contact = ? WHERE id = ?",
-                   description, rdescription, contact, session["user_id"])
+        db.execute("UPDATE users SET personalInfo = ?, contact = ? WHERE id = ?",
+                   (description, contact, session["user_id"]))
         database.commit()
 
         # Retrieves newly updated user information
@@ -156,7 +154,7 @@ def update_profile():
         userInfo = db.fetchone()
 
         # Returns user to their own profile page with all necessary info
-        return render_template("profile.html", userInfo)
+        return render_template("profile.html", userInfo=userInfo)
 
     else:
         return render_template("update_profile.html")
@@ -182,7 +180,7 @@ def find_friends():
         qualified_users = []
         query = criteria.split(", ")
         for crit in query:
-            qualified_users.extend(db.execute("SELECT * FROM users WHERE about_you LIKE ? ", '%' + crit + '%'))
+            qualified_users.extend(db.execute("SELECT * FROM users WHERE personalInfo LIKE ? ", ['%' + crit + '%']))
         qu = []
         [qu.append(x) for x in qualified_users if x not in qu]
 
